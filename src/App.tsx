@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import './App.css';
 import axios from 'axios';
 
@@ -7,6 +8,7 @@ function App() {
   const [ username, setUsername ] = useState("");
   const [ password, setPassword ] = useState("");
   const [ error, setError ] = useState("");
+  let history = useHistory();
 
   function handleChangeUser (e: React.ChangeEvent<HTMLInputElement>) {
     setUsername(e.target.value);
@@ -28,7 +30,8 @@ function App() {
           setError("Wrong password or username")
       }
       else {
-        localStorage.setItem('token', JSON.stringify(res.data.token));
+        localStorage.setItem('token', res.data.token);
+        history.push("/posts");
       }  
     })
     .catch( (err) => {
