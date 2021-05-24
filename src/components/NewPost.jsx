@@ -24,7 +24,7 @@ const NewPost = () => {
 
        axios.post("http://localhost:3001/blogadmin/posts/new", {
       title,
-      text: editorRef.current.getContent({ format: "text" }) 
+      text: editorRef.current.getContent() 
     }, {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem("token")}`
@@ -55,14 +55,16 @@ const NewPost = () => {
           init={{
             height: 500,
             menubar: false,
+            content_css : 'document',
             plugins: [
               'advlist autolink lists link image charmap print preview anchor',
               'searchreplace visualblocks code fullscreen',
               'insertdatetime media table paste code help wordcount'
             ],
-            toolbar: 'undo redo | formatselect | ' +
-            'bold italic backcolor | alignleft aligncenter ' +
+            toolbar: 'undo redo | formatselect fontselect | ' +
+            'bold italic underline backcolor forecolor | alignleft aligncenter ' +
             'alignright alignjustify | bullist numlist outdent indent | ' +
+            'selectall copy paste | link unlink | fullscreen |' +
             'removeformat | help',
             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
           }}
