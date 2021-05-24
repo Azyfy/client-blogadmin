@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import { Editor } from '@tinymce/tinymce-react';
+require('dotenv').config()
 
 const NewPost = () => {
     const [ title, setTitle ] = useState("");
@@ -50,7 +51,7 @@ const NewPost = () => {
         <form onSubmit={handleSubmit}>
         <input onChange={handleChangeTitle} type="text" id="title" name="title" placeholder="Title" />
         <Editor
-        apiKey='wjrsfohifnq140yhcxilps0r1tjv23d3y0pgphpj4xorvv62'
+        apiKey = {process.env.REACT_APP_API_KEY}
           onInit={(evt, editor) => editorRef.current = editor}
           init={{
             height: 500,
