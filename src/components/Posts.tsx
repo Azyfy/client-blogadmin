@@ -25,8 +25,17 @@ const Posts = () => {
 
       }, []);
 
+      function handleLogout () {
+        localStorage.setItem('token', "");
+      }
+
     return (
         <div>
+            <div>
+                <a href="/posts/new"> New </a>
+                <a href="/" onClick={handleLogout}> Logout </a>
+            </div>
+            <div>
             <p> Posts </p>
             {posts.map( post => {
                 return (
@@ -39,6 +48,7 @@ const Posts = () => {
                 );
             })
             }
+            </div>
         </div>
     );
 };
