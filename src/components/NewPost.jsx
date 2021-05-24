@@ -32,7 +32,7 @@ const NewPost = () => {
         }
     })
     .then( (res) => {
-        if(res.data == "Post submitted!") {
+        if(res.data === "Post submitted!") {
         history.push("/posts");
         }
         else {

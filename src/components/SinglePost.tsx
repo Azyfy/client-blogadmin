@@ -51,7 +51,7 @@ const SinglePost = () => {
 
 return(
     <div> 
-        { (loading == true) ? (
+        { (loading === true) ? (
             <p>Loading...</p>
         ) : (
             <>
