@@ -8,11 +8,7 @@ const NewPost = () => {
     const [ title, setTitle ] = useState("");
     const [ error, setError ] = useState("");
     const editorRef = useRef(null);
-    const log = () => {
-     if (editorRef.current) {
-       console.log(editorRef.current.getContent());
-     }
-   };
+
 
    let history = useHistory();
 
