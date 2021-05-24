@@ -24,7 +24,7 @@ const NewPost = () => {
 
        axios.post("http://localhost:3001/blogadmin/posts/new", {
       title,
-      text: editorRef.current.getContent() 
+      text: editorRef.current.getContent({ format: "text" }) 
     }, {
         headers: {
             'Authorization': `Bearer ${localStorage.getItem("token")}`
