@@ -45,6 +45,10 @@ const SinglePost = () => {
           })
       }
 
+      function createMarkup(markup) {
+        return {__html: markup};
+      }
+
 return(
     <div> 
         { (loading == true) ? (
@@ -53,7 +57,7 @@ return(
             <>
             <div>
                 <h4> {post.title} </h4>
-                <p> {post.text} </p>
+                <div dangerouslySetInnerHTML={createMarkup(post.text)}></div>
             </div>
 
             <button onClick={deletePost} type="button"> Delete </button>

@@ -29,6 +29,10 @@ const Posts = () => {
         localStorage.setItem('token', "");
       }
 
+      function createMarkup(markup) {
+        return {__html: markup};
+      }
+
     return (
         <div>
             <div>
@@ -43,7 +47,7 @@ const Posts = () => {
                         <Link key={post._id} to={`/posts/${post._id}`} >
                         <h5 key={post._id}> {post.title} </h5>
                         </Link>
-                        <p key={post._id +1}> {post.text} </p>
+                        <div key={post._id +1} dangerouslySetInnerHTML={createMarkup(post.text)}></div>
                     </div>
                 );
             })
