@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
+import './spinner.css';
 
 const SinglePost = () => {
 
@@ -22,7 +23,7 @@ const SinglePost = () => {
         })
         .then((res) => {
             setPost(res.data);
-            setLoading(false);
+            setTimeout(function(){ setLoading(false); }, 2000);
           })
           .catch((error) => {
             console.error(error)
@@ -49,18 +50,25 @@ const SinglePost = () => {
         return {__html: markup};
       }
 
+      function htmlDecode(content) {
+        let e = document.createElement('div');
+        e.innerHTML = content;
+        return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+      }
+
 return(
-    <div> 
+    <div className="p-7"> 
         { (loading === true) ? (
-            <p>Loading...</p>
+            <div className="spinner"></div>
         ) : (
             <>
-            <div>
-                <h4> {post.title} </h4>
-                <div dangerouslySetInnerHTML={createMarkup(post.text)}></div>
+            <a href="/posts" className="mx-3 px-2 border border-yellow-400 text-yellow-500 hover:underline hover:bg-blue-200"> Back </a>
+            <div  className="my-7 border border-white">
+                <h4 className="p-2 border border-black bg-blue-300 text-white"> {post.title} </h4>
+                <div dangerouslySetInnerHTML={createMarkup(htmlDecode(post.text))} className="p-5 border border-black bg-white"></div>
             </div>
 
-            <button onClick={deletePost} type="button"> Delete </button>
+            <button onClick={deletePost} type="button" className="mx-3 px-2 border border-red-400 text-red-500 hover:underline hover:bg-blue-200"> Delete </button>
             </>
         )
         }
