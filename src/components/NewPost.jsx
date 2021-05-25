@@ -45,7 +45,6 @@ const NewPost = () => {
     return(
         <>
         <form onSubmit={handleSubmit}>
-        <input onChange={handleChangeTitle} type="text" id="title" name="title" placeholder="Title" />
         <Editor
         apiKey = {process.env.REACT_APP_API_KEY}
           onInit={(evt, editor) => editorRef.current = editor}
@@ -66,9 +65,16 @@ const NewPost = () => {
             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
           }}
         />
-        <button> Submit post</button>
-        <p> {error} </p>
+        <div className="text-center">
+          <input onChange={handleChangeTitle} type="text" id="title" name="title" placeholder="Title" required className="my-3 pl-2 border-2 border-yellow-400 focus:text-blue-400 placeholder-red-300 shadow-inner "/>
+          <br />
+          <button className="mx-3 px-2 border border-blue-400 text-blue-500 hover:underline hover:bg-blue-200"> Submit post</button>
+        </div>
+        <p className="text-center text-red-500"> {error} </p>
         </form>
+        <div className="mt-5 text-center">
+          <a href="/posts" className="mx-3 px-2 border border-yellow-400 text-yellow-500 hover:underline hover:bg-blue-200"> Back </a>
+        </div>
       </>
     )
 }
