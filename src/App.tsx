@@ -42,17 +42,17 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>
-          Happy hacking!
-        </p>
-        <form onSubmit={handleSubmit}>
-          <input onChange={handleChangeUser} type="text" id="user" name="user" placeholder="Admin" />
+        <h4 className="mt-5 text-blue-500 text-center text-2xl font-extrabold">
+          Welcome
+        </h4>
+        <form onSubmit={handleSubmit} className="mt-8 grid justify-items-center">
+          <input onChange={handleChangeUser} className="my-3 pl-2 border-2 border-yellow-400 focus:text-blue-400 placeholder-red-300 shadow-inner " type="text" id="user" name="user" placeholder="Admin" />
           <br />
-          <input onChange={handleChangePass} type="password" id="password" name="password" placeholder="12345" />
+          <input onChange={handleChangePass} className="mb-3 pl-2 border-2 border-yellow-400 focus:text-blue-400 placeholder-red-300 shadow-inner" type="password" id="password" name="password" placeholder="12345" />
           <br />
-          <button> Sign In </button>
+          <button className="p-1 rounded bg-purple-600 bg-opacity-50 hover:bg-purple-700 text-white"> Sign In </button>
         </form> 
-        <p> {error} </p>
+        <p className="mt-1 text-center text-red-500"> {error} </p>
       </header>
     </div>
   );
