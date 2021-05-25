@@ -9,7 +9,6 @@ const Posts = () => {
     let history = useHistory();
 
     useEffect(() => {
-        
         axios.get("http://localhost:3001/blogadmin/posts", {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
@@ -33,21 +32,31 @@ const Posts = () => {
         return {__html: markup};
       }
 
+      function htmlDecode(content) {
+        let e = document.createElement('div');
+        e.innerHTML = content;
+        return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+      }
+
     return (
         <div>
-            <div>
-                <a href="/posts/new"> New </a>
-                <a href="/" onClick={handleLogout}> Logout </a>
+            <div className="my-7 flex justify-center">
+                <a href="/posts/new" className="mx-3 px-2 border border-yellow-400 text-yellow-500 hover:underline hover:bg-blue-200"> New </a>
+                <a href="/" onClick={handleLogout} className="mx-3 px-2 border border-yellow-400 text-yellow-500 hover:underline hover:bg-white hover:bg-blue-200"> Logout </a>
             </div>
-            <div>
-            <p> Posts </p>
+            <div className="mx-3">
+            {(posts.length === 0 ) ? ( 
+                <p className="text-center"> There are no posts </p>
+             ):(
+                <> </>
+             ) }
             {posts.map( post => {
                 return (
-                    <div key={post._id}>
+                    <div key={post._id} className="my-7 border border-white">
                         <Link key={post._id} to={`/posts/${post._id}`} >
-                        <h5 key={post._id}> {post.title} </h5>
+                        <h5 key={post._id} className="p-2 border border-black bg-blue-300 text-white hover:bg-white hover:text-black"> {post.title} </h5>
                         </Link>
-                        <div key={post._id +1} dangerouslySetInnerHTML={createMarkup(post.text)}></div>
+                        <div key={post._id +1} dangerouslySetInnerHTML={(createMarkup(htmlDecode(post.text)))} className="p-5 border border-black bg-white"></div>
                     </div>
                 );
             })
