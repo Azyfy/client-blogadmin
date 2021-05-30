@@ -130,22 +130,22 @@ return(
                 <h4 className="p-2 border border-black bg-blue-300 text-white"> {post.title} </h4>
                 <div dangerouslySetInnerHTML={createMarkup(htmlDecode(post.text))} className="p-5 border border-black bg-white"></div>
             </div>
-            <div>
+            <div className="relative mb-5">
               { comments.map( comment => { 
                 return (
-                  <div key={comment._id}>
-                    <h6 key={comment._id}>{comment.user}</h6>
-                    <p key={comment._id +1}>{comment.comment}</p>
-                    <button key={comment._id + 2} onClick={deleteComment} data-comment={comment._id}>X</button>
+                  <div key={comment._id} className="relative border-b border-black mb-5">
+                    <h6 key={comment._id} className="italic">{comment.user}</h6>
+                    <p key={comment._id +1} className="pl-5">{comment.comment}</p>
+                    <button key={comment._id + 2} onClick={deleteComment} data-comment={comment._id} className="absolute right-0 top-0 border border-red-300 rounded-lg text-red-500 hover:border-red-700 px-1">x</button>
                   </div>
                 )
               }) }
               <form onSubmit={handleSubmit}>
-                <input onChange={handleChangeComment} placeholder="Comment"/>
+                <input onChange={handleChangeComment} placeholder="Comment" type="text" id="comment" name="comment" required className="my-3 pl-2 border-2 border-yellow-400 focus:text-blue-400 placeholder-red-300 shadow-inner "/>
               </form>
             </div>
 
-            <button onClick={deletePost} type="button" className="mx-3 px-2 border border-red-400 text-red-500 hover:underline hover:bg-blue-200"> Delete </button>
+            <button onClick={deletePost} type="button" className="mx-3 px-2 border border-red-400 text-red-500 hover:underline hover:bg-blue-200"> Delete Post </button>
             </>
         )
         }
