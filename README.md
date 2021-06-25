@@ -9,6 +9,7 @@ Blogadmin is the frontend for the admin of the blog.
 - Sign in (username: Admin password: 12345) and logout
 - Write blog posts and delete them
 - Comment on posts and delete comments
+- Loading animation
 
 ###### Tools
 - React
