@@ -14,7 +14,6 @@ Blogadmin is the frontend for the admin of the blog.
 ###### Tools
 - React
 - Tailwindcss
-- Typescript
 - TinyMCE
 
 Screenshot(s):

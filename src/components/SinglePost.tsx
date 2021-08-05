@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import './spinner.css';
@@ -11,48 +11,47 @@ const SinglePost = () => {
     const [ comments, setComments ] = useState([]);
     const [ comment, setComment ] = useState("");
 
-    let history = useHistory();
+    const history = useHistory();
 
     useEffect( () => {
-        
-        let pathname = window.location.pathname.split("/");
+        console.log("ue")
+        const pathname = window.location.pathname.split("/");
         setId(pathname[2]);
 
-        axios.get(`http://localhost:3001/blogadmin/posts/${pathname[2]}`, {
+        function getPost() {
+          return axios.get(`http://localhost:3001/blogadmin/posts/${pathname[2]}`, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+              }
+        });
+        }
+
+        function getComments() {
+          return axios.get(`http://localhost:3001/blogadmin/comments`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
               }   
-        })
-        .then((res) => {
-            setPost(res.data);
-          })
-          .catch((error) => {
-            console.error(error)
-            history.push("/posts")
-          })
+          });
+        }
 
-        //axios.all
-        //this should get to memory leak, for now let it be
-        axios.get(`http://localhost:3001/blogadmin/comments`, {
-          headers: {
-              'Authorization': `Bearer ${localStorage.getItem("token")}`
-            }   
-        })
-        .then((res) => {
-            let postComments = res.data.filter( comment => { 
-              if (comment.blogpost._id === pathname[2]) {
-                return comment;
-              } 
+        Promise.all([getPost(), getComments()])
+          .then( (results) => {
+            const returnedPost = results[0].data;
+            const returnedComments = results[1].data;
+
+            setPost(returnedPost);
+
+            const postComments = returnedComments.filter( comment => { 
+              return comment.blogpost._id === pathname[2]
              });
-             setComments(postComments);
+             setComments(postComments); 
              setLoading(false);
-          })
-          .catch((error) => {
-            console.error(error)
-            history.push("/posts")
-          })
+          }).catch((error) => {
+              console.error(error)
+              history.push("/posts")
+          });
 
-      }, []);
+      }, [history]);
 
       function deletePost (e) {
         axios.delete(`http://localhost:3001/blogadmin/posts/${id}`,{
@@ -75,7 +74,9 @@ const SinglePost = () => {
               }   
         })
         .then((res) => {
-          window.location.reload();
+            setComments(comments.filter(comment => {
+       
+              return comment._id !== e.target.attributes.getNamedItem("data-comment").value }))
           })
           .catch((error) => {
             console.error(error)
@@ -101,8 +102,8 @@ const SinglePost = () => {
             }
         })
         .then( (res) => {
-          console.log(res)
-          window.location.reload();
+          setComments(comments.concat(res.data))
+          setComment("")
       })
       .catch( (err) => {
         console.log(err)
@@ -130,18 +131,18 @@ return(
                 <h4 className="p-2 border border-black bg-blue-300 text-white"> {post.title} </h4>
                 <div dangerouslySetInnerHTML={createMarkup(htmlDecode(post.text))} className="p-5 border border-black bg-white"></div>
             </div>
-            <div className="relative mb-5">
+            <div className="relative mb-5 px-5">
               { comments.map( comment => { 
                 return (
                   <div key={comment._id} className="relative border-b border-black mb-5">
-                    <h6 key={comment._id} className="italic">{comment.user}</h6>
-                    <p key={comment._id +1} className="pl-5">{comment.comment}</p>
-                    <button key={comment._id + 2} onClick={deleteComment} data-comment={comment._id} className="absolute right-0 top-0 border border-red-300 rounded-lg text-red-500 hover:border-red-700 px-1">x</button>
+                    <h6  className="italic">{comment.user}</h6>
+                    <p  className="pl-5">{comment.comment}</p>
+                    <button  onClick={deleteComment} data-comment={comment._id} className="absolute right-0 top-0 border border-red-300 rounded-lg text-red-500 hover:border-red-700 px-1">x</button>
                   </div>
                 )
               }) }
               <form onSubmit={handleSubmit}>
-                <input onChange={handleChangeComment} placeholder="Comment" type="text" id="comment" name="comment" required className="my-3 pl-2 border-2 border-yellow-400 focus:text-blue-400 placeholder-red-300 shadow-inner "/>
+                <input onChange={handleChangeComment} value={comment} placeholder="Comment" type="text" id="comment" name="comment" required className="my-3 pl-2 border-2 border-yellow-400 focus:text-blue-400 placeholder-red-300 shadow-inner "/>
               </form>
             </div>
 

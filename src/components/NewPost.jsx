@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import { Editor } from '@tinymce/tinymce-react';
@@ -9,8 +9,7 @@ const NewPost = () => {
     const [ error, setError ] = useState("");
     const editorRef = useRef(null);
 
-
-   let history = useHistory();
+   const history = useHistory();
 
    function handleChangeTitle (e) {
     setTitle(e.target.value);

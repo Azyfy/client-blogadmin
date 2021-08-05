@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
 import axios from 'axios';
 
@@ -6,9 +6,10 @@ const Posts = () => {
 
     const [ posts, setPosts ] = useState<any>([]);
 
-    let history = useHistory();
+    const history = useHistory();
 
     useEffect(() => {
+      console.log("ue")
         axios.get("http://localhost:3001/blogadmin/posts", {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem("token")}`
@@ -22,7 +23,7 @@ const Posts = () => {
             history.push("/");
           })
 
-      }, []);
+      }, [history]);
 
       function handleLogout () {
         localStorage.setItem('token', "");
@@ -53,10 +54,10 @@ const Posts = () => {
             {posts.map( post => {
                 return (
                     <div key={post._id} className="my-7 border border-white">
-                        <Link key={post._id} to={`/posts/${post._id}`} >
-                        <h5 key={post._id} className="p-2 border border-black bg-blue-300 text-white hover:bg-white hover:text-black"> {post.title} </h5>
+                        <Link  to={`/posts/${post._id}`} >
+                        <h5  className="p-2 border border-black bg-blue-300 text-white hover:bg-white hover:text-black"> {post.title} </h5>
                         </Link>
-                        <div key={post._id +1} dangerouslySetInnerHTML={(createMarkup(htmlDecode(post.text)))} className="p-5 border border-black bg-white"></div>
+                        <div  dangerouslySetInnerHTML={(createMarkup(htmlDecode(post.text)))} className="p-5 border border-black bg-white"></div>
                     </div>
                 );
             })
